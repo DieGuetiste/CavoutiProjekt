@@ -13,9 +13,6 @@ public class Model {
     ObservableList<Entry> entries = FXCollections.observableArrayList();
 
     public Model() throws Exception {
-       // entries.addAll(Randomizer.getRandomEntries(100));
-
-
         loadData();
         entries.sort(Entry::compareTo);
     }
@@ -27,7 +24,6 @@ public class Model {
             array.add(entry.toJson());
         }
         BufferedWriter writer = new BufferedWriter(new FileWriter(new File("save.json")));
-
         writer.write(array.toJSONString());
         writer.close();
 
