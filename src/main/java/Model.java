@@ -32,6 +32,11 @@ public class Model {
         writer.close();
     }
 
+    public void replaceEntry(Entry old, Entry new_){
+        entries.remove(old);
+        entries.add(new_);
+    }
+
 
 
 }
