@@ -16,6 +16,14 @@ public class Entry {
         this.city = city;
         this.email = email;
     }
+    public void recreate(String firstName, String lastName, String street, int zip, String city, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.street = street;
+        this.zip = zip;
+        this.city = city;
+        this.email = email;
+    }
 
     public JSONObject toJsonObject(){
         JSONObject entry = new JSONObject();
