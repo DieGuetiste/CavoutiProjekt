@@ -10,4 +10,28 @@ import java.io.*;
 import java.util.Comparator;
 
 public class Model {
+
+    public ObservableList<Entry> entries;
+
+    public Model(){
+        entries = FXCollections.observableArrayList();
+    }
+
+    public void addEntry(Entry entry){
+        entries.add(entry);
+    }
+
+    public void saveEntries(String path) throws Exception{
+        JSONArray array = new JSONArray();
+        entries.forEach(e -> {
+            array.add(e.toJsonObject());
+        });
+        String jsonString = array.toJSONString();
+        BufferedWriter writer = new BufferedWriter(new FileWriter(new File(path)));
+        writer.write(jsonString);
+        writer.close();
+    }
+
+
+
 }
