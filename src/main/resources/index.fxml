@@ -155,7 +155,7 @@
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
               <children>
-                  <ChoiceBox layoutX="14.0" layoutY="14.0" prefWidth="150.0" />
+                  <ChoiceBox fx:id="cb_delete" layoutX="14.0" layoutY="14.0" prefWidth="150.0" />
                   <ButtonBar AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                       <buttons>
                           <Button mnemonicParsing="false" onAction="#delete" text="Löschen" />
@@ -174,12 +174,12 @@
                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                       </rowConstraints>
-                      <Label text="Vorname" GridPane.halignment="RIGHT" GridPane.valignment="CENTER" />
-                      <Label text="Nachname" GridPane.columnIndex="1" />
-                      <Label text="Strasse" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
-                      <Label text="Email" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                      <Label text="PLZ" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
-                      <Label text="Stadt" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                      <Label fx:id="l_del_firstName" text="Vorname" GridPane.halignment="RIGHT" GridPane.valignment="CENTER" />
+                      <Label fx:id="l_del_lastName" text="Nachname" GridPane.columnIndex="1" />
+                      <Label fx:id="l_del_street" text="Strasse" GridPane.halignment="RIGHT" GridPane.rowIndex="1"/>
+                      <Label fx:id="l_del_email" text="Email" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                      <Label fx:id="l_del_zip" text="PLZ" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+                      <Label fx:id="l_del_city" text="Stadt" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   </GridPane>
               </children>
           </AnchorPane>

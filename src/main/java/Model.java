@@ -32,11 +32,7 @@ public class Model {
         writer.close();
     }
 
-    public void replaceEntry(Entry old, Entry new_){
-        entries.remove(old);
-        entries.add(new_);
+    public void removeEntry(Entry selectedItem) {
+        entries.remove(selectedItem);
     }
-
-
-
 }
