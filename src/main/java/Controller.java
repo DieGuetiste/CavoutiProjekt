@@ -14,27 +14,10 @@ import java.io.IOException;
 
 public class Controller {
     public ListView lv_entries;
-    public Label l_firstName;
-    public Label l_lastName;
-    public Label l_street;
-    public Label l_city;
-    public Label l_zip;
-    public Label l_email;
-    public TextField tf_firstname;
-    public TextField tf_lastname;
-    public TextField tf_street;
-    public TextField tf_city;
-    public TextField tf_zip;
-    public TextField tf_email;
+    public Label l_firstName, l_lastName, l_street, l_city, l_zip, l_email,l_del_firstName, l_del_lastName, l_del_email, l_del_street, l_del_zip, l_del_city;
+    public TextField tf_firstname, tf_lastname, tf_street, tf_city, tf_zip, tf_email,tf_edit_firstname, tf_edit_lastname, tf_edit_street, tf_edit_zip, tf_edit_city, tf_edit_email;
     public ChoiceBox cb_edit;
-    public TabPane tabPane;
-    public Tab edit_tab;
-    public TextField tf_edit_firstname;
-    public TextField tf_edit_lastname;
-    public TextField tf_edit_street;
-    public TextField tf_edit_zip;
-    public TextField tf_edit_city;
-    public TextField tf_edit_email;
+    public ChoiceBox cb_delete;
     private Model model;
     private ChangeListener onEditSelected = new ChangeListener() {
         @Override
@@ -48,6 +31,17 @@ public class Controller {
         }
 
     };
+    private ChangeListener onDeleteSelected = new ChangeListener() {
+        @Override
+        public void changed(ObservableValue observableValue, Object oldEntry, Object newEntry) {
+            l_del_firstName.setText(((Entry)newEntry).getFirstName());
+            l_del_lastName.setText(((Entry)newEntry).getLastName());
+            l_del_street.setText(((Entry)newEntry).getStreet());
+            l_del_zip.setText(((Entry)newEntry).getZip() + "");
+            l_del_city.setText(((Entry)newEntry).getCity());
+            l_del_email.setText(((Entry)newEntry).getEmail());
+        }
+    };
 
     public void setMyModel(Model model) {
         this.model = model;
@@ -60,7 +54,9 @@ public class Controller {
         lv_entries.setItems(model.entries);
         lv_entries.getSelectionModel().selectedItemProperty().addListener((observableValue, oldEntry, newEntry) -> showEntry((Entry) newEntry));
         cb_edit.setItems(model.entries);
+        cb_delete.setItems(model.entries);
         cb_edit.getSelectionModel().selectedItemProperty().addListener(onEditSelected);
+        cb_delete.getSelectionModel().selectedItemProperty().addListener(onDeleteSelected);
     }
 
     public void showEntry(Entry entry) {
@@ -102,12 +98,9 @@ public class Controller {
             alertController.setOnNo(event -> {
                 stage.close();
             });
-
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
 
     public void saveEdit(ActionEvent actionEvent) {
@@ -140,6 +133,31 @@ public class Controller {
     }
 
     public void delete(ActionEvent actionEvent) {
+        Parent root;
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("alert.fxml"));
+            root = loader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Löschen");
+            stage.setScene(new Scene(root));
+            stage.show();
+            AlertController alertController = loader.getController();
+            alertController.setText("Willst du den Eintrag löschen?");
+            alertController.setOnYes(event -> {
+                model.removeEntry((Entry)cb_delete.getSelectionModel().getSelectedItem());
+                stage.close();
+                try {
+                    model.saveEntries("Entries.json");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+            alertController.setOnNo(event -> {
+                stage.close();
+            });
 
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
