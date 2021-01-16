@@ -111,10 +111,30 @@ public class Controller {
     }
 
     public void saveEdit(ActionEvent actionEvent) {
-        ((Entry) cb_edit.getSelectionModel().getSelectedItem()).recreate(tf_edit_firstname.getText(), tf_edit_lastname.getText(), tf_edit_street.getText(), Integer.valueOf(tf_edit_zip.getText()), tf_edit_city.getText(), tf_edit_email.getText());
+        Parent root;
         try {
-            model.saveEntries("Entries.json");
-        } catch (Exception e) {
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("alert.fxml"));
+            root = loader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Speichern");
+            stage.setScene(new Scene(root));
+            stage.show();
+            AlertController alertController = loader.getController();
+            alertController.setText("Willst du die Änderungen speichern?");
+            alertController.setOnYes(event -> {
+                ((Entry) cb_edit.getSelectionModel().getSelectedItem()).recreate(tf_edit_firstname.getText(), tf_edit_lastname.getText(), tf_edit_street.getText(), Integer.valueOf(tf_edit_zip.getText()), tf_edit_city.getText(), tf_edit_email.getText());
+                stage.close();
+                try {
+                    model.saveEntries("Entries.json");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+            alertController.setOnNo(event -> {
+                stage.close();
+            });
+
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
