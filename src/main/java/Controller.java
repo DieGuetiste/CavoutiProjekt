@@ -1,5 +1,6 @@
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -11,6 +12,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.List;
 
 public class Controller {
     public ListView lv_entries;
@@ -18,6 +20,7 @@ public class Controller {
     public TextField tf_firstname, tf_lastname, tf_street, tf_city, tf_zip, tf_email,tf_edit_firstname, tf_edit_lastname, tf_edit_street, tf_edit_zip, tf_edit_city, tf_edit_email;
     public ChoiceBox cb_edit;
     public ChoiceBox cb_delete;
+    public TextField tf_search;
     private Model model;
     private ChangeListener onEditSelected = new ChangeListener() {
         @Override
@@ -45,8 +48,14 @@ public class Controller {
 
     public void setMyModel(Model model) {
         this.model = model;
+        Randomizer.getRandomEntries(500).forEach(model::addEntry);
         try {
             model.loadEntries("Entries.json");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            model.saveEntries("Entries.json");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -56,6 +65,14 @@ public class Controller {
         cb_delete.setItems(model.entries);
         cb_edit.getSelectionModel().selectedItemProperty().addListener(onEditSelected);
         cb_delete.getSelectionModel().selectedItemProperty().addListener(onDeleteSelected);
+        tf_search.textProperty().addListener((observableValue, old, _new) -> {
+            if (_new.equals("")){
+                lv_entries.setItems(model.entries);
+                return;
+            }
+            ObservableList<Entry> filtered = model.filter(_new);
+            lv_entries.setItems(filtered);
+        });
     }
 
     public void showEntry(Entry entry) {
