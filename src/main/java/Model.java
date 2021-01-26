@@ -8,7 +8,9 @@ import org.json.simple.parser.ParseException;
 
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 
 public class Model {
 
@@ -20,6 +22,7 @@ public class Model {
 
     public void addEntry(Entry entry) {
         entries.add(entry);
+        entries.sort((o1, o2) -> o1.compareTo(o2));
     }
 
     public void saveEntries(String path) throws Exception {
@@ -31,6 +34,7 @@ public class Model {
         BufferedWriter writer = new BufferedWriter(new FileWriter(new File(path)));
         writer.write(jsonString);
         writer.close();
+
     }
 
     public void loadEntries(String path) throws Exception {
@@ -39,11 +43,24 @@ public class Model {
         String jsonString = reader.readLine();
         JSONArray array = (JSONArray) parser.parse(jsonString);
         array.forEach(e -> {
-            entries.add(Entry.fromJson((JSONObject)e));
+            entries.add(Entry.fromJson((JSONObject) e));
         });
+        entries.sort((o1, o2) -> o1.compareTo(o2));
     }
 
     public void removeEntry(Entry selectedItem) {
         entries.remove(selectedItem);
+        entries.sort((o1, o2) -> o1.compareTo(o2));
+    }
+
+    public ObservableList<Entry> filter(String filter) {
+        ObservableList<Entry> filtered = FXCollections.observableArrayList();
+        entries.forEach(e -> {
+            if (e.matches(filter)) {
+                filtered.add(e);
+            }
+        });
+
+        return filtered;
     }
 }

@@ -14,7 +14,7 @@ public class Main extends Application {
             controller.setMyModel(myModel);
             Scene scene = new Scene(root);
             scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-            primaryStage.setTitle("Öffne das Tor!");
+            primaryStage.setTitle("AdressApp");
             primaryStage.setScene(scene);
             primaryStage.show();
         } catch(Exception e) {

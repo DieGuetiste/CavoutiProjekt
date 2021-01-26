@@ -1,3 +1,4 @@
+import javafx.scene.control.TabPane;
 import org.json.simple.JSONObject;
 
 public class Entry {
@@ -22,7 +23,7 @@ public class Entry {
                 (String) object.get("firstName"),
                 (String) object.get("lastName"),
                 (String) object.get("street"),
-                Integer.parseInt(Long.toString((Long)object.get("zip"))),
+                Integer.parseInt(Long.toString((Long) object.get("zip"))),
                 (String) object.get("city"),
                 (String) object.get("email"));
         return e;
@@ -75,5 +76,31 @@ public class Entry {
 
     public String getEmail() {
         return email;
+    }
+
+    public boolean matches(String filter) {
+        String code = firstName +
+                lastName +
+                street +
+                zip +
+                city +
+                email;
+        return code.toLowerCase().contains(filter.toLowerCase());
+    }
+
+    public int compareTo(Entry o2) {
+        String code = firstName +
+                lastName +
+                street +
+                zip +
+                city +
+                email;
+        String subcode = o2.firstName +
+                o2.lastName +
+                o2.street +
+                o2.zip +
+                o2.city +
+                o2.email;
+        return code.compareTo(subcode);
     }
 }
