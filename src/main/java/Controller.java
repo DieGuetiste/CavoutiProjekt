@@ -48,7 +48,7 @@ public class Controller {
 
     public void setMyModel(Model model) {
         this.model = model;
-        Randomizer.getRandomEntries(500).forEach(model::addEntry);
+        //Randomizer.getRandomEntries(50).forEach(model::addEntry);
         try {
             model.loadEntries("Entries.json");
         } catch (Exception e) {
